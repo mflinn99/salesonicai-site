@@ -105,6 +105,24 @@
     }, {threshold:.6}).observe(el);
   });
 
+  /* Contact form: sends via FormSubmit (AJAX), falls back to a normal POST without JS */
+  (function(){
+    var f = $('.cform'); if(!f || !window.fetch || !window.FormData) return;
+    var st = $('.cform__status', f), btn = $('button[type=submit]', f);
+    f.addEventListener('submit', function(e){
+      e.preventDefault(); st.className = 'cform__status'; st.textContent = '';
+      var bad = $$('[required]', f).filter(function(i){ var v = i.value.trim(); var b = !v || (i.type==='email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)); i.setAttribute('aria-invalid', b ? 'true' : 'false'); return b; });
+      if(bad.length){ st.className = 'cform__status err'; st.textContent = 'Please fill in your name, company, a valid email and a message.'; bad[0].focus(); return; }
+      if($('[name=_honey]', f).value) return;
+      btn.disabled = true; st.textContent = 'Sending…';
+      fetch(f.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {method:'POST', headers:{'Accept':'application/json'}, body:new FormData(f)})
+        .then(function(r){ return r.json().then(function(j){ if(!r.ok || String(j.success)!=='true') throw new Error(j.message||'failed'); }); })
+        .then(function(){ f.reset(); st.className = 'cform__status ok'; st.textContent = 'Thank you. Your message is on its way to Sean, and he’ll be in touch shortly.'; })
+        .catch(function(){ st.className = 'cform__status err'; st.innerHTML = 'Sorry, that didn’t send. Please try again, or call Sean on <a href="tel:+447867803880">+44 7867 803880</a>.'; })
+        .then(function(){ btn.disabled = false; });
+    });
+  })();
+
   /* Spotlight on bento tiles */
   $$('.tile').forEach(function(t){ t.addEventListener('pointermove', function(e){ var r=t.getBoundingClientRect(); t.style.setProperty('--mx',(e.clientX-r.left)+'px'); t.style.setProperty('--my',(e.clientY-r.top)+'px'); }); });
 })();

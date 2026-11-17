@@ -307,3 +307,23 @@ p{margin:0}
 .trust__grid{grid-template-columns:repeat(3,1fr)}
 .micro a[href^="tel:"]{white-space:nowrap}
 .device img{width:100%}
+/* Contact form */
+.founding__b .tel{color:var(--c-sky);white-space:nowrap}
+.cform{margin-top:24px;display:grid;gap:14px}
+.cform__row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cform__f{display:grid;gap:6px}
+.cform label{font-size:.875rem;font-weight:500;color:#fff}
+.cform label span{color:var(--c-faint-d);font-weight:400}
+.cform input,.cform textarea{font:inherit;font-size:1rem;color:#fff;background:rgba(7,14,28,.55);border:1px solid var(--c-line-d2);border-radius:12px;padding:12px 14px;width:100%;transition:border-color .2s,box-shadow .2s}
+.cform textarea{resize:vertical;min-height:112px}
+.cform input::placeholder,.cform textarea::placeholder{color:var(--c-faint-d)}
+.cform input:focus-visible,.cform textarea:focus-visible{outline:none;border-color:var(--c-sky);box-shadow:0 0 0 3px rgba(124,196,255,.3)}
+.cform [aria-invalid=true]{border-color:#ff8a8a}
+.cform__hp{position:absolute!important;left:-10000px;width:1px;height:1px;overflow:hidden}
+.cform__foot{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.founding .cform__foot .btn{margin-top:0}
+.cform button[disabled]{opacity:.6;cursor:progress}
+.founding .cform__status{margin-top:0;font-weight:500;color:#fff;min-height:1.2em}
+.cform__status.ok{color:#8ff0b8!important}.cform__status.err{color:#ff9d9d!important}
+.founding .cform__note{margin-top:0;font-size:.8125rem;color:var(--c-faint-d)}
+@media (max-width:560px){.cform__row{grid-template-columns:1fr}}
